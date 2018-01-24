@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Seifon-熊峰的博客</title>
+  <title>熊峰的博客 - Seifon&#39;s Blog</title>
   <icon>https://www.gravatar.com/avatar/7ac49c33c147e472add17a2c25693e10</icon>
   <subtitle>不定期分享一些个人开发经验</subtitle>
   <link href="/atom.xml" rel="self"/>
