@@ -2,21 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.seifon.cn/2017/05/02/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99Firewalld%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
-    
-    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.seifon.cn/2017/09/05/Nginx%E7%9A%84%E4%BA%94%E7%A7%8D%E8%B4%9F%E8%BD%BD%E7%AE%97%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
-    
-    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.seifon.cn/2017/07/09/%E5%BC%80%E5%85%B3%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%EF%BC%8C%E4%BB%A580%E4%B8%BA%E4%BE%8B/</loc>
+    <loc>https://www.seifon.cn/2017/06/27/Yaml%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -30,7 +16,7 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/2017/06/27/Yaml%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E/</loc>
+    <loc>https://www.seifon.cn/2017/09/05/Nginx%E7%9A%84%E4%BA%94%E7%A7%8D%E8%B4%9F%E8%BD%BD%E7%AE%97%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -44,7 +30,7 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/2017/09/05/%E9%AB%98CPU%E5%8D%A0%E7%94%A8%E8%B0%83%E4%BC%98/</loc>
+    <loc>https://www.seifon.cn/2017/07/09/%E5%BC%80%E5%85%B3%E6%8C%87%E5%AE%9A%E7%AB%AF%E5%8F%A3%EF%BC%8C%E4%BB%A580%E4%B8%BA%E4%BE%8B/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -58,6 +44,20 @@
   </url>
   
   <url>
+    <loc>https://www.seifon.cn/2017/05/02/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99Firewalld%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
+    
+    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.seifon.cn/2017/09/05/%E9%AB%98CPU%E5%8D%A0%E7%94%A8%E8%B0%83%E4%BC%98/</loc>
+    
+    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.seifon.cn/404.html</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/about/index.html</loc>
+    <loc>https://www.seifon.cn/tags/index.html</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -79,7 +79,7 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/tags/index.html</loc>
+    <loc>https://www.seifon.cn/about/index.html</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
