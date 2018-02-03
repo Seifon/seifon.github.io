@@ -2,28 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.seifon.cn/2017/06/27/Yaml%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E/</loc>
+    <loc>https://www.seifon.cn/about/index.html</loc>
     
-    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.seifon.cn/2017/07/08/Jenkins%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
-    
-    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
+    <lastmod>2018-01-25T15:50:48.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/2017/09/05/Nginx%E7%9A%84%E4%BA%94%E7%A7%8D%E8%B4%9F%E8%BD%BD%E7%AE%97%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
-    
-    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.seifon.cn/2017/05/03/Mysql%E5%BC%82%E5%9C%B0%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%96%B9%E6%B3%95/</loc>
+    <loc>https://www.seifon.cn/2017/05/02/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99Firewalld%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -37,14 +23,21 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/2017/04/13/%E5%87%BA%E5%9C%88%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://www.seifon.cn/2017/07/08/Jenkins%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/2017/05/02/CentOS7%E9%98%B2%E7%81%AB%E5%A2%99Firewalld%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
+    <loc>https://www.seifon.cn/2017/06/27/Yaml%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E/</loc>
+    
+    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://www.seifon.cn/2017/05/03/Mysql%E5%BC%82%E5%9C%B0%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -58,6 +51,13 @@
   </url>
   
   <url>
+    <loc>https://www.seifon.cn/2017/04/13/%E5%87%BA%E5%9C%88%E7%AE%97%E6%B3%95/</loc>
+    
+    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.seifon.cn/404.html</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/tags/index.html</loc>
+    <loc>https://www.seifon.cn/2017/09/05/Nginx%E7%9A%84%E4%BA%94%E7%A7%8D%E8%B4%9F%E8%BD%BD%E7%AE%97%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
@@ -79,7 +79,7 @@
   </url>
   
   <url>
-    <loc>https://www.seifon.cn/about/index.html</loc>
+    <loc>https://www.seifon.cn/tags/index.html</loc>
     
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     
