@@ -59,28 +59,6 @@
 
     
   <url>
-    <loc>https://www.seifon.cn/2017/06/27/Yaml%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E/</loc>
-    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
-    <data>
-        <display>
-        <title>Yaml语法说明</title>
-        <pubTime>2017-06-26T17:19:00.000Z</pubTime>
-        
-        <tag>Yaml</tag>
-         
-        <tag>yml</tag>
-         
-         
-           
-             
-              <breadCrumb title="Yaml" url="https://www.seifon.cn/categories/Yaml/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://www.seifon.cn/2017/09/05/Nginx%E7%9A%84%E4%BA%94%E7%A7%8D%E8%B4%9F%E8%BD%BD%E7%AE%97%E6%B3%95%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2018-01-24T15:13:45.000Z</lastmod>
     <data>
@@ -96,6 +74,28 @@
            
              
               <breadCrumb title="Nginx" url="https://www.seifon.cn/categories/Nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://www.seifon.cn/2017/06/27/Yaml%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E/</loc>
+    <lastmod>2018-01-24T15:13:45.000Z</lastmod>
+    <data>
+        <display>
+        <title>Yaml语法说明</title>
+        <pubTime>2017-06-26T17:19:00.000Z</pubTime>
+        
+        <tag>Yaml</tag>
+         
+        <tag>yml</tag>
+         
+         
+           
+             
+              <breadCrumb title="Yaml" url="https://www.seifon.cn/categories/Yaml/"/>
           
         </display>
     </data>
