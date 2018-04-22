@@ -1,2 +1,2 @@
-Sitemap: https://www.seifon.cn/sitemap.xml
-Sitemap: https://www.seifon.cn/baidusitemap.xml
+Sitemap: http://www.seifon.cn/sitemap.xml
+Sitemap: http://www.seifon.cn/baidusitemap.xml
