@@ -24,7 +24,7 @@
     <!--Title-->
 
 
-<title>标签: 防火墙 | 熊峰的博客 - Seifon&#39;s Blog</title>
+<title>标签: Util | 熊峰的博客 - Seifon&#39;s Blog</title>
 
 
     <link rel="alternate" href="/atom.xml" title="熊峰的博客 - Seifon&#39;s Blog" type="application/atom+xml">
@@ -135,7 +135,7 @@
                 <main class="col-md-8 main-content ">
                     <h3> 
 
-    防火墙 
+    Util 
 
 
 </h3>
@@ -145,42 +145,24 @@
         <div class="post-content">
             <div class="post-head home-post-head">
                 <h1 class="post-title"> 
-                    <a href="/2017/07/09/开关指定端口，以80为例/">开关指定端口，以80为例</a>
+                    <a href="/2018/04/30/Spring统一返回Json工具类，带分页信息/">Spring统一返回Json工具类，带分页信息</a>
                 </h1>
                 <div class="post-meta">  &bull;
                     <time class="post-date" datetime="" title="">
-                        2017年07月09日
+                        2018年04月30日
                     </time>
                 </div>
             </div>
             <p class="brief">
-                开启80端口：1iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+                
+前言：
+项目做前后端分离时，我们会经常提供Json数据给前端，如果有一个统一的Json格式返回工具类，那么将大大提高开发效率和减低沟通成本。
 
-关闭80端口：1iptables -I INPUT -p tcp --dport 80 -j DROP
-保存并重启Iptables：12/etc/init.d/iptables saveservice iptables restart
-            </p> 
-        </div>
-    </article>
- 
-    <article class="post">
-        
-        <div class="post-content">
-            <div class="post-head home-post-head">
-                <h1 class="post-title"> 
-                    <a href="/2017/05/02/CentOS7防火墙Firewalld配置和使用/">CentOS7防火墙Firewalld配置和使用</a>
-                </h1>
-                <div class="post-meta">  &bull;
-                    <time class="post-date" datetime="" title="">
-                        2017年05月02日
-                    </time>
-                </div>
-            </div>
-            <p class="brief">
-                添加放行端口：1firewall-cmd --permanent --zone=public --add-port=80/tcp
+此Json响应工具类，支持带分页信息，支持泛型，支持HttpStatus标准返回码
 
-删除放行端口：1firewall-cmd --permanent --zone=public --remove-port=80/tcp
-热加载：1firewall-cmd --reload
-命令含义：12345--zone #作用域--add-port=80/tcp  #添加端口，格式为：端口/通讯协议--permanent   #永久生效...
+
+效果预览：
+步入正题：1. Resp工具类123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354...
             </p> 
         </div>
     </article>
