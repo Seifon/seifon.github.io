@@ -1,14 +1,19 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="zh-CN">
 <head>
     <!--Setting-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta name="apple-mobile-web-app-capable"  content="yes">
+    <meta name="apple-mobile-web-app-capable" content="熊峰的博客 - Seifon&#39;s Blog">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="format-detection" content="telephone=no,email=no">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://www.seifon.cn">
     <!--SEO-->
 
     <meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验,爬虫,python,java,jsoup" />
@@ -36,10 +41,8 @@
 
 
 
-
-
-<link rel="stylesheet" href="/css/third-party/bootstrap.min.css?rev=3.3.4">
-<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
 <link rel="stylesheet" href="/css/style.css?rev=@@hash">
 
 
@@ -48,8 +51,7 @@
     
 
 
-    
-    
+
     <script>
         var _hmt = _hmt || [];
         (function() {
@@ -60,6 +62,9 @@
         })();
     </script>
 
+
+
+    
 </head>
 
 
@@ -79,49 +84,39 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
-                    <span class="sr-only">Toggle navigation</span>
-                    <i class="fa fa-bars"></i>
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
                     </span>
                 </div>
                 <div class="collapse navbar-collapse" id="main-menu">
                     <ul class="menu">
                         
-                            <li role="presentation"><a href="/"><i class="fa fa-fw fa-home"></i>熊峰的博客</a>
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa fa-home"></i>熊峰的博客</a>
                             </li>
                         
-                            <li role="presentation"><a href="/categories"><i class="fa fa-fw fa-list"></i>分类</a>
+                            <li role="presentation" class="text-center">
+                                <a href="/categories"><i class="fa fa-list"></i>分类</a>
                             </li>
                         
-                            <li role="presentation"><a href="/archives"><i class="fa fa-fw fa-archive"></i>归档</a>
+                            <li role="presentation" class="text-center">
+                                <a href="/archives"><i class="fa fa-archive"></i>归档</a>
                             </li>
                         
-                            <li role="presentation"><a href="/tags"><i class="fa fa-fw fa-tag"></i>标签</a>
+                            <li role="presentation" class="text-center">
+                                <a href="/tags"><i class="fa fa-tag"></i>标签</a>
                             </li>
                         
-                            <li role="presentation"><a href="/about"><i class="fa fa-fw fa-user"></i>关于</a>
+                            <li role="presentation" class="text-center">
+                                <a href="/about"><i class="fa fa-user"></i>关于</a>
                             </li>
                         
-                             
-                             
-                             <li role="presentation"><a href="javascript:;" class="popup-trigger"><i class="fa fa-fw fa-search"></i>搜索</a></li>
-                             
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="site-search">
-        <div class="popup">
- <span class="search-icon fa fa-search"></span>
- <input type="text" id="local-search-input">
- <div id="local-search-result"></div>
- <span class="popup-btn-close">关闭</span>
-</div>
-    </div>
-    
 </nav>
-
 
 <a href="http://github.com/seifon">
     <img style="position: absolute; top: 0; right: 0; border: 0;"
@@ -136,13 +131,11 @@
                     
 
 
-
-
 <article class="post">
     
         <div class="post-media">
-            <a href="javascript:">
-                <img class="img-ajax" src="./img/loading.gif"  data-src="//ww1.sinaimg.cn/large/005zWjpngy1fqv0est94pj30970b974z.jpg"   alt="Spring统一返回Json工具类，带分页信息">
+            <a href="/2018/04/30/Spring统一返回Json工具类，带分页信息/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="//ww1.sinaimg.cn/large/005zWjpngy1fqv08porc5j306l04sq30.jpg"   alt="Spring统一返回Json工具类，带分页信息">
             </a>
         </div>
     
@@ -159,6 +152,7 @@
         </div>
         <p class="brief">
             
+                
 前言：
 项目做前后端分离时，我们会经常提供Json数据给前端，如果有一个统一的Json格式返回工具类，那么将大大提高开发效率和减低沟通成本。
 
@@ -167,16 +161,20 @@
 
 效果预览：
 步入正题：1. Resp工具类123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Restful</span>
+        <a href="/categories/Restful">
+            Restful
+        </a>
     </span>
     
     
@@ -184,32 +182,42 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            Rest
+                
+                    <a href="/tags/Rest" title='Rest'>
+                        Rest
+                    </a>
+                
+                    <a href="/tags/Json" title='Json'>
+                        Json
+                    </a>
+                
+                    <a href="/tags/Util" title='Util'>
+                        Util
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/04/30</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2018/04/30/Spring统一返回Json工具类，带分页信息/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2018/04/30/Spring统一返回Json工具类，带分页信息/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
 <article class="post">
     
         <div class="post-media">
-            <a href="javascript:">
-                <img class="img-ajax" src="./img/loading.gif"  data-src="//ww1.sinaimg.cn/large/005zWjpngy1fqkm5g7xp3j30u10cr76b.jpg"   alt="利用Filter和Spring拦截器，将用户信息动态传入Request方法">
+            <a href="/2018/04/21/利用Filter和拦截器，将用户信息动态传入Request方法/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="//ww1.sinaimg.cn/large/005zWjpngy1fqkm5g7xp3j30u10cr76b.jpg"   alt="利用Filter和Spring拦截器，将用户信息动态传入Request方法">
             </a>
         </div>
     
@@ -225,23 +233,28 @@
             </div>
         </div>
         <p class="brief">
-            前言：
+            
+                前言：
 在开发当中，经常会验证用户登录状态和获取用户信息。如果每次都手动调用用户信息查询接口，会非常的繁琐，而且代码冗余。为了提高开发效率，因此就有了今天这篇文章。
 
 思路：
 用户请求我们的方法会携带一个Token，通过Filter过滤器将会员信息查出来并放到request请求参数中。接着在Cotroller层的请求方法中接收一个MemberDeatails类型的参数，就能直接获得会员信息了。
 
-详细步骤：1. Gradle引入需要的Jar包：1compile &quo...
+详细步骤：1. Gradle引入需要的Jar包：1compile &amp;quo...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Spring</span>
+        <a href="/categories/Spring">
+            Spring
+        </a>
     </span>
     
     
@@ -249,24 +262,30 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            拦截器
+                
+                    <a href="/tags/拦截器" title='拦截器'>
+                        拦截器
+                    </a>
+                
+                    <a href="/tags/Filter" title='Filter'>
+                        Filter
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/04/21</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2018/04/21/利用Filter和拦截器，将用户信息动态传入Request方法/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2018/04/21/利用Filter和拦截器，将用户信息动态传入Request方法/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -284,26 +303,31 @@
             </div>
         </div>
         <p class="brief">
-            1、轮询（默认）每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。  
+            
+                1、轮询（默认）每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。  
 
 例如：  
 
-1234upstream bakend &#123;  server 192.168.0.14;  server 192.168.0.15;  &#125;
+1234upstream bakend &amp;#123;  server 192.168.0.14;  server 192.168.0.15;  &amp;#125;
 2、weight权重指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。  
 
 例如：  
 
-1234upstream bakend &#123;  server 192....
+1234upstream bakend &amp;#123;  server 192....
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Nginx</span>
+        <a href="/categories/Nginx">
+            Nginx
+        </a>
     </span>
     
     
@@ -311,32 +335,38 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            Nginx
+                
+                    <a href="/tags/Nginx" title='Nginx'>
+                        Nginx
+                    </a>
+                
+                    <a href="/tags/负载均衡" title='负载均衡'>
+                        负载均衡
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/09/05</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/09/05/Nginx的五种负载算法模式/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/09/05/Nginx的五种负载算法模式/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
 <article class="post">
     
         <div class="post-media">
-            <a href="javascript:">
-                <img class="img-ajax" src="./img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjr9mfhxj20nb07k7fy.jpg"   alt="高CPU占用调优">
+            <a href="/2017/09/05/高CPU占用调优/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjr9mfhxj20nb07k7fy.jpg"   alt="高CPU占用调优">
             </a>
         </div>
     
@@ -352,26 +382,31 @@
             </div>
         </div>
         <p class="brief">
-            根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。
+            
+                根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。
 通过查看进程1ps aux | grep PID
 可以进一步确定是tomcat进程出现了问题。
 但是，怎么定位到具体线程或者代码呢？
 首先显示线程列表:1ps -mp pid -o THREAD,tid,time
 
 找到了耗时最高的线程28802，占用CPU时间快两个小时了！
-其次将需要的线程ID转换为16进制格式：1printf &quot;%x\n&quot; tid
+其次将需要的线程ID转换为16进制格式：1printf &amp;quot;%x\n&amp;quot; tid
 
 最后打印...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>JAVA调优</span>
+        <a href="/categories/JAVA调优">
+            JAVA调优
+        </a>
     </span>
     
     
@@ -379,24 +414,34 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            调优
+                
+                    <a href="/tags/调优" title='调优'>
+                        调优
+                    </a>
+                
+                    <a href="/tags/Jstack" title='Jstack'>
+                        Jstack
+                    </a>
+                
+                    <a href="/tags/栈" title='栈'>
+                        栈
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/09/05</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/09/05/高CPU占用调优/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/09/05/高CPU占用调优/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -414,20 +459,22 @@
             </div>
         </div>
         <p class="brief">
-            开启80端口：1iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-
-关闭80端口：1iptables -I INPUT -p tcp --dport 80 -j DROP
-保存并重启Iptables：12/etc/init.d/iptables saveservice iptables restart
+            
+                开启80端口：1iptables -I INPUT -p tcp --dport 80 -j ACCEPT…
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Iptables</span>
+        <a href="/categories/Iptables">
+            Iptables
+        </a>
     </span>
     
     
@@ -435,32 +482,42 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            centos
+                
+                    <a href="/tags/centos" title='centos'>
+                        centos
+                    </a>
+                
+                    <a href="/tags/linux" title='linux'>
+                        linux
+                    </a>
+                
+                    <a href="/tags/iptables" title='iptables'>
+                        iptables
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/07/09</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/07/09/开关指定端口，以80为例/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/07/09/开关指定端口，以80为例/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
 <article class="post">
     
         <div class="post-media">
-            <a href="javascript:">
-                <img class="img-ajax" src="./img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fi82tr5h3aj211t0ieq48.jpg"   alt="Jenkins环境搭建">
+            <a href="/2017/07/08/Jenkins环境搭建/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fi8341ynlxj20qk08tt92.jpg"   alt="Jenkins环境搭建">
             </a>
         </div>
     
@@ -476,17 +533,22 @@
             </div>
         </div>
         <p class="brief">
-            上传以下的包到/tmp/目录下：1234567891011jdk-8u121-linux-x64.tar.gzapache-tomcat-7.0.75.tar.gzapache-maven-3.5.0-bin.tar.gzMySQL-client-5.5.52-1.el6.x86_64.rpmMySQL-devel-5.5.52-1.el6.x86_64.rpmMySQL-server-5.5.52-1.el6.x86_64.rpmMySQL-shared-5.5.52...
+            
+                上传以下的包到/tmp/目录下：1234567891011jdk-8u121-linux-x64.tar.gzapache-tomcat-7.0.75.tar.gzapache-maven-3.5.0-bin.tar.gzMySQL-client-5.5.52-1.el6.x86_64.rpmMySQL-devel-5.5.52-1.el6.x86_64.rpmMySQL-server-5.5.52-1.el6.x86_64.rpmMySQL-shared-5.5.52...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Jenkins</span>
+        <a href="/categories/Jenkins">
+            Jenkins
+        </a>
     </span>
     
     
@@ -494,24 +556,30 @@
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            Jenkins
+                
+                    <a href="/tags/Jenkins" title='Jenkins'>
+                        Jenkins
+                    </a>
+                
+                    <a href="/tags/CI" title='CI'>
+                        CI
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/07/08</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/07/08/Jenkins环境搭建/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/07/08/Jenkins环境搭建/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -529,7 +597,8 @@
             </div>
         </div>
         <p class="brief">
-            简介YAML 是专门用来写配置文件的语言，非常简洁和强大，远比 JSON 格式方便。
+            
+                简介YAML 是专门用来写配置文件的语言，非常简洁和强大，远比 JSON 格式方便。
 语法规则
 大小写敏感
 使用缩进表示层级关系
@@ -541,16 +610,20 @@
 YAML支持三种数据结构：
 对象：键值对的集合，又称为映射（mapping）/ 哈希（hashes） / 字典（dictionary）
 数组：一组按次序排列的值，又称为...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Yaml</span>
+        <a href="/categories/Yaml">
+            Yaml
+        </a>
     </span>
     
     
@@ -558,24 +631,30 @@ YAML支持三种数据结构：
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            Yaml
+                
+                    <a href="/tags/Yaml" title='Yaml'>
+                        Yaml
+                    </a>
+                
+                    <a href="/tags/yml" title='yml'>
+                        yml
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/06/27</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/06/27/Yaml语法说明/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/06/27/Yaml语法说明/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -593,22 +672,27 @@ YAML支持三种数据结构：
             </div>
         </div>
         <p class="brief">
-            两台linux服务器：
+            
+                两台linux服务器：
 一台199.20.30.222（mysql服务器）
 一台199.20.30.226（与mysql互通的一台server）
 
 思路：mysql本地做一份备份；226Server做一份同步备份，脚本放在222上面，定时任务也设置在222上面。
 （1）mysql本地备份：1234#!/bin/sh#mysql_backupDATE=`date +%Y%m%d`/opt/mysql/bin/mysqldump --opt jsweb -u root   ...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Mysql</span>
+        <a href="/categories/Mysql">
+            Mysql
+        </a>
     </span>
     
     
@@ -616,24 +700,34 @@ YAML支持三种数据结构：
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            Mysql
+                
+                    <a href="/tags/Mysql" title='Mysql'>
+                        Mysql
+                    </a>
+                
+                    <a href="/tags/数据库" title='数据库'>
+                        数据库
+                    </a>
+                
+                    <a href="/tags/备份" title='备份'>
+                        备份
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/05/03</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/05/03/Mysql异地定时备份方法/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/05/03/Mysql异地定时备份方法/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -651,21 +745,22 @@ YAML支持三种数据结构：
             </div>
         </div>
         <p class="brief">
-            添加放行端口：1firewall-cmd --permanent --zone=public --add-port=80/tcp
-
-删除放行端口：1firewall-cmd --permanent --zone=public --remove-port=80/tcp
-热加载：1firewall-cmd --reload
-命令含义：12345--zone #作用域--add-port=80/tcp  #添加端口，格式为：端口/通讯协议--permanent   #永久生效...
+            
+                添加放行端口：1firewall-cmd --permanent --zone=public --add-port=80/tcp…
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>Iptables</span>
+        <a href="/categories/Iptables">
+            Iptables
+        </a>
     </span>
     
     
@@ -673,24 +768,34 @@ YAML支持三种数据结构：
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            centos
+                
+                    <a href="/tags/centos" title='centos'>
+                        centos
+                    </a>
+                
+                    <a href="/tags/linux" title='linux'>
+                        linux
+                    </a>
+                
+                    <a href="/tags/iptables" title='iptables'>
+                        iptables
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/05/02</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/05/02/CentOS7防火墙Firewalld配置和使用/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/05/02/CentOS7防火墙Firewalld配置和使用/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -708,18 +813,23 @@ YAML支持三种数据结构：
             </div>
         </div>
         <p class="brief">
-            题目：有 people 个人站成一个圈，第一个人开始数数（从1开始），每数到 num 或者 num 的倍数此人就退出。最后剩下的人是多少号？网上看了看，应该有很多种实现方法，在此摘录下来。
-方式一：1234567static int cycle(int people, int num) &#123;      int i, r = 0;      for (i = 2; i &lt;= people; i++) &#123;          r = (r + num)...
+            
+                题目：有 people 个人站成一个圈，第一个人开始数数（从1开始），每数到 num 或者 num 的倍数此人就退出。最后剩下的人是多少号？网上看了看，应该有很多种实现方法，在此摘录下来。
+方式一：1234567static int cycle(int people, int num) &amp;#123;      int i, r = 0;      for (i = 2; i &amp;lt;= people; i++) &amp;#123;          r = (r + num)...
+            
         </p>
     </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
         <i class="fa fa-folder-open-o"></i>
-        <span>算法</span>
+        <a href="/categories/算法">
+            算法
+        </a>
     </span>
     
     
@@ -727,24 +837,34 @@ YAML支持三种数据结构：
         <i class="fa fa-tags"></i>
         <span class="tags-meta">
             
-            算法
+                
+                    <a href="/tags/算法" title='算法'>
+                        算法
+                    </a>
+                
+                    <a href="/tags/数据结构" title='数据结构'>
+                        数据结构
+                    </a>
+                
+                    <a href="/tags/面试" title='面试'>
+                        面试
+                    </a>
+                
             
         </span>
     </span>
     
+
     
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2017/04/13</span>
-    </span>
 </div>
 
-        </div>
+            </div>
 
-        <div class="post-permalink">
-            <a href="/2017/04/13/出圈算法/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
+            <div class="post-permalink">
+                <a href="/2017/04/13/出圈算法/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
 </article>
 
 
@@ -757,8 +877,37 @@ YAML支持三种数据结构：
     <aside class="col-md-4 sidebar">
         
         
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
     <div class="widget notification">
-        <h3 class="title">公告</h3>
+        <h3 class="title">网站公告</h3>
         <div>
             <p>
   <b>笔者微信</b>：熊峰的博客，欢迎加我<br/>
@@ -834,6 +983,15 @@ YAML支持三种数据结构：
 
         
         
+    <div class="widget">
+        <h3 class="title">友链</h3>
+        <div class="content friends-link">
+        
+            <a href="https://www.seifon.cn/" class="fa" target="_blank">熊峰的博客</a>
+        
+        </div>
+    </div>
+
 
         
     </aside>
@@ -848,7 +1006,9 @@ YAML支持三种数据结构：
     </div>
 </footer>
 
-
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
 
 
 
@@ -857,7 +1017,7 @@ YAML支持三种数据结构：
     <div class="container">
         <div class="row">
             <div class="col-sm-12"> 
-                <span>Copyright &copy; 2016
+                <span>Copyright &copy; 2017
                 </span> | 
                 <span>
                     Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
@@ -870,140 +1030,12 @@ YAML支持三种数据结构：
     </div>
 </div>
 
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
 <script src="/js/app.js?rev=@@hash"></script>
-<script src="/lib/jquery/index.js?rev=2.1.3"></script>
-
-    
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length == 0) {
-       search_path = "search.xml";
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    function proceedsearch() {
-      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
-      $('.popup').toggle();
-
-    }
-    var $doc = window.document;
-    var $input1 =$doc.getElementById("local-search-input");
-    var $resultContent1 = $doc.getElementById('local-search-result');
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-    'use strict';
-    $.ajax({
-        url: path,
-        dataType: "xml",
-        async: true,
-        success: function( xmlResponse ) {
-            // get the contents from search data
-            isfetched = true;
-            $('.popup').detach().appendTo('body');
-            var datas = $( "entry", xmlResponse ).map(function() {
-                return {
-                    title: $( "title", this ).text(),
-                    content: $("content",this).text(),
-                    url: $( "url" , this).text()
-                };
-            }).get();
-            var $input =document.getElementById(search_id);
-            var $resultContent = document.getElementById(content_id);
-          //  var $input =$input1;
-            //var $resultContent = $resultContent1;
-            $input.addEventListener('input', function(){
-                var matchcounts = 0;
-                var str='<ul class=\"search-result-list\">';
-                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                $resultContent.innerHTML = "";
-                if (this.value.trim().length > 1) {
-                // perform local searching
-                datas.forEach(function(data) {
-                    var isMatch = false;
-                    var content_index = [];
-                    var data_title = data.title.trim().toLowerCase();
-                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
-                    var data_url = data.url;
-                    var index_title = -1;
-                    var index_content = -1;
-                    var first_occur = -1;
-                    // only match artiles with not empty titles and contents
-                    if(data_title != '') {
-                        keywords.forEach(function(keyword, i) {
-                            index_title = data_title.indexOf(keyword);
-                            index_content = data_content.indexOf(keyword);
-                            if( index_title >= 0 || index_content >= 0 ){
-                                isMatch = true;
-								if (i == 0) {
-                                    first_occur = index_content;
-                                }
-                            } 
-							
-                        });
-                    }
-                    // show search results
-                    if (isMatch) {
-                        matchcounts += 1;
-                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
-                        var content = data.content.trim().replace(/<[^>]+>/g,"");
-                        if (first_occur >= 0) {
-                            // cut out 100 characters
-                            var start = first_occur - 20;
-                            var end = first_occur + 80;
-                            if(start < 0){
-                                start = 0;
-                            }
-                            if(start == 0){
-                                end = 50;
-                            }
-                            if(end > content.length){
-                                end = content.length;
-                            }
-                            var match_content = content.substring(start, end);
-                            // highlight all keywords
-                            keywords.forEach(function(keyword){
-                                var regS = new RegExp(keyword, "gi");
-                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
-                            });
-
-                            str += "<p class=\"search-result\">" + match_content +"...</p>"
-                        }
-                        str += "</li>";
-                    }
-                })};
-                str += "</ul>";
-                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
-                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-                $resultContent.innerHTML = str;
-            });
-            proceedsearch();
-        }
-    });}
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-
-    });
-
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-  </script>
 
 
 </body>
