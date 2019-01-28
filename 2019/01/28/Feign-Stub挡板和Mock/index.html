@@ -1,0 +1,443 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="熊峰的博客 - Seifon&#39;s Blog">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://www.seifon.cn">
+    <!--SEO-->
+
+    <meta name="keywords" content="前端,雄风,熊风,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验,爬虫,python,java,jsoup" />
+
+
+    <meta name="description" content="背景：在项目开发中，会有调用第三方接口的场景。当开发时，对方不愿意提供测试服务器给我们调用，或者有的接口会按调用次数进行计费。当联调时，第三方的测试服务器也可能会出现不稳定，如果他们的服务挂了，我们就一直等着服务恢复，那么这就相当影响效率了。如果我们在开发时，就定义一个挡板或者mock服务，在..." />
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>Feign Stub挡板和Mock | 熊峰的博客 - Seifon&#39;s Blog</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="熊峰的博客 - Seifon&#39;s Blog" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?0a12e606ddb1f91f0a67ccb060b3c2eb";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa fa-home"></i>熊峰的博客</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories"><i class="fa fa-list"></i>分类</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives"><i class="fa fa-archive"></i>归档</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/tags"><i class="fa fa-tag"></i>标签</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about"><i class="fa fa-user"></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Feign Stub挡板和Mock">
+            
+	            Feign Stub挡板和Mock
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/ ">
+             
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+            
+        </span>
+    </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/01/28</span>
+        </span>
+    
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h4 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h4><p>在项目开发中，会有调用第三方接口的场景。当开发时，对方不愿意提供测试服务器给我们调用，或者有的接口会按调用次数进行计费。当联调时，第三方的测试服务器也可能会出现不稳定，如果他们的服务挂了，我们就一直等着服务恢复，那么这就相当影响效率了。如果我们在开发时，就定义一个挡板或者mock服务，在发起调用时，不直接调到第三方接口，而是调到我们自己的挡板代码或者mock服务，这样就可以避免这些问题了。</p>
+<blockquote>
+<p>优势：</p>
+</blockquote>
+<ul>
+<li>挡板代码，不需要侵入业务代码，可以根据入参做一些动态结果返回</li>
+<li>不需要专门开发一个挡板服务，并且在每次启动客户端都先启动挡板服务</li>
+<li>可以自由选择使用挡板还是Mock数据</li>
+</ul>
+<blockquote>
+<p>详细Demo代码，已经提交到Github，欢迎star</p>
+</blockquote>
+<p>Demo地址: <a href="https://github.com/Seifon/FeignStubMock" target="_blank" rel="noopener">https://github.com/Seifon/FeignStubMock</a></p>
+<hr>
+<h4 id="一、下面我就以一个第三方SMS短信接口来做演示："><a href="#一、下面我就以一个第三方SMS短信接口来做演示：" class="headerlink" title="一、下面我就以一个第三方SMS短信接口来做演示："></a>一、下面我就以一个第三方SMS短信接口来做演示：</h4><p>首先，我们写一个Feign客户端接口，正常调用第三方接口：</p>
+<h5 id="1-定义一个SMS短信的Feign客户端接口："><a href="#1-定义一个SMS短信的Feign客户端接口：" class="headerlink" title="1.定义一个SMS短信的Feign客户端接口："></a>1.定义一个SMS短信的Feign客户端接口：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import cn.seifon.example.feignstubmock.dto.YunxunSmsReqDto;</span><br><span class="line">import cn.seifon.example.feignstubmock.dto.YunxunSmsRespDto;</span><br><span class="line">import org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line">import org.springframework.web.bind.annotation.PostMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestBody;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: Seifon</span><br><span class="line"> * @Description:</span><br><span class="line"> * @Date: Created in 10:24 2019/1/7</span><br><span class="line"> */</span><br><span class="line">@FeignClient(name = &quot;smsclient&quot;, url = &quot;$&#123;sms.url&#125;&quot;, primary = false)</span><br><span class="line">public interface YunxunSmsFeign &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @param request</span><br><span class="line">     * @return &#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19012516213625881&quot;,&quot;time&quot;:&quot;20190125162136&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;</span><br><span class="line">     * @return &#123;&quot;code&quot;:&quot;107&quot;,&quot;msgId&quot;:&quot;&quot;,&quot;time&quot;:&quot;20190125162358&quot;,&quot;errorMsg&quot;:&quot;手机号码格式错误&quot;&#125;</span><br><span class="line">     */</span><br><span class="line">    @PostMapping(&quot;/msg/variable/json&quot;)</span><br><span class="line">    YunxunSmsRespDto send(@RequestBody YunxunSmsReqDto request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：@FeignClient注解里面的primary属性一定要设置为false,这是为了防止在开启Feign挡板时，出现多个Feign客户端导致启动报错。</p>
+</blockquote>
+<h5 id="2-写一个单元测试："><a href="#2-写一个单元测试：" class="headerlink" title="2.写一个单元测试："></a>2.写一个单元测试：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import cn.seifon.example.feignstubmock.dto.YunxunSmsReqDto;</span><br><span class="line">import cn.seifon.example.feignstubmock.dto.YunxunSmsRespDto;</span><br><span class="line">import cn.seifon.example.feignstubmock.feign.YunxunSmsFeign;</span><br><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line">import org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"></span><br><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">public class FeignStubMockApplicationTests &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private YunxunSmsFeign yunxunSmsFeign;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void feignStubMockTest() &#123;</span><br><span class="line">        YunxunSmsReqDto yunxunSmsReqDto=new YunxunSmsReqDto();</span><br><span class="line">        yunxunSmsReqDto.setAccount(&quot;XXXXXXX&quot;);</span><br><span class="line">        yunxunSmsReqDto.setPassword(&quot;XXXXXXX&quot;);</span><br><span class="line">        yunxunSmsReqDto.setMsg(&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;);</span><br><span class="line">        yunxunSmsReqDto.setParams(&quot;13011112222,123456&quot;);</span><br><span class="line">        yunxunSmsReqDto.setReport(&quot;true&quot;);</span><br><span class="line"></span><br><span class="line">        YunxunSmsRespDto send = yunxunSmsFeign.send(yunxunSmsReqDto);</span><br><span class="line">        </span><br><span class="line">        //打印结果</span><br><span class="line">        System.out.println(JSON.toJSON(send));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="3-1-我们输入一个正确的手机号，拿一个成功的结果："><a href="#3-1-我们输入一个正确的手机号，拿一个成功的结果：" class="headerlink" title="3.1.我们输入一个正确的手机号，拿一个成功的结果："></a>3.1.我们输入一个正确的手机号，拿一个成功的结果：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">2019-01-28 11:17:56.718 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] ---&gt; POST http://smssh1.253.com/msg/variable/json HTTP/1.1</span><br><span class="line">2019-01-28 11:17:56.719 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] Content-Type: application/json;charset=UTF-8</span><br><span class="line">2019-01-28 11:17:56.720 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] Content-Length: 160</span><br><span class="line">2019-01-28 11:17:56.720 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] </span><br><span class="line">2019-01-28 11:17:56.721 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &#123;&quot;account&quot;:&quot;XXXXXX&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;params&quot;:&quot;17311112222,123456&quot;,&quot;report&quot;:&quot;true&quot;&#125;</span><br><span class="line">2019-01-28 11:17:56.721 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] ---&gt; END HTTP (160-byte body)</span><br><span class="line">2019-01-28 11:17:56.958 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &lt;--- HTTP/1.1 200 OK (236ms)</span><br><span class="line">2019-01-28 11:17:56.960 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] connection: keep-alive</span><br><span class="line">2019-01-28 11:17:56.962 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] content-length: 109</span><br><span class="line">2019-01-28 11:17:56.963 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] content-type: application/json;charset=UTF-8</span><br><span class="line">2019-01-28 11:17:56.965 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] date: Mon, 28 Jan 2019 03:17:56 GMT</span><br><span class="line">2019-01-28 11:17:56.966 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] </span><br><span class="line">2019-01-28 11:17:56.971 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19012811175621982&quot;,&quot;time&quot;:&quot;20190128111756&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;</span><br><span class="line">2019-01-28 11:17:56.972 DEBUG 6920 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &lt;--- END HTTP (109-byte body)</span><br><span class="line">&#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19012811175621982&quot;,&quot;time&quot;:&quot;20190128111756&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，我们可以根据日志，看到请求的地址也是第三方的url</p>
+<h6 id="3-2-我们输入一个错误的手机号，拿一个失败的结果："><a href="#3-2-我们输入一个错误的手机号，拿一个失败的结果：" class="headerlink" title="3.2.我们输入一个错误的手机号，拿一个失败的结果："></a>3.2.我们输入一个错误的手机号，拿一个失败的结果：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">2019-01-28 11:21:15.300 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] ---&gt; POST http://smssh1.253.com/msg/variable/json HTTP/1.1</span><br><span class="line">2019-01-28 11:21:15.301 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] Content-Type: application/json;charset=UTF-8</span><br><span class="line">2019-01-28 11:21:15.302 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] Content-Length: 152</span><br><span class="line">2019-01-28 11:21:15.302 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] </span><br><span class="line">2019-01-28 11:21:15.303 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &#123;&quot;account&quot;:&quot;XXXXX&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;params&quot;:&quot;173,123456&quot;,&quot;report&quot;:&quot;true&quot;&#125;</span><br><span class="line">2019-01-28 11:21:15.303 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] ---&gt; END HTTP (152-byte body)</span><br><span class="line">2019-01-28 11:21:15.470 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &lt;--- HTTP/1.1 200 OK (165ms)</span><br><span class="line">2019-01-28 11:21:15.471 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] connection: keep-alive</span><br><span class="line">2019-01-28 11:21:15.473 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] content-length: 87</span><br><span class="line">2019-01-28 11:21:15.474 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] content-type: application/json;charset=UTF-8</span><br><span class="line">2019-01-28 11:21:15.476 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] date: Mon, 28 Jan 2019 03:21:15 GMT</span><br><span class="line">2019-01-28 11:21:15.477 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] </span><br><span class="line">2019-01-28 11:21:15.483 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &#123;&quot;code&quot;:&quot;107&quot;,&quot;msgId&quot;:&quot;&quot;,&quot;time&quot;:&quot;20190128112115&quot;,&quot;errorMsg&quot;:&quot;手机号码格式错误&quot;&#125;</span><br><span class="line">2019-01-28 11:21:15.484 DEBUG 5288 --- [           main] c.s.e.f.feign.YunxunSmsFeign             : [YunxunSmsFeign#send] &lt;--- END HTTP (87-byte body)</span><br><span class="line">&#123;&quot;code&quot;:&quot;107&quot;,&quot;msgId&quot;:&quot;&quot;,&quot;time&quot;:&quot;20190128112115&quot;,&quot;errorMsg&quot;:&quot;手机号码格式错误&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们知道了两种情况下出现的结果，那么我们就可以模拟响应结果啦。小技巧：我们可以先跟对方调接口，把各种响应报文保存下来，方便后面直接mock数据</p>
+<hr>
+<h4 id="二、接下来进入挡板编写环节："><a href="#二、接下来进入挡板编写环节：" class="headerlink" title="二、接下来进入挡板编写环节："></a>二、接下来进入挡板编写环节：</h4><h5 id="1-编写一个YunxunSmsFeignStub类，并实现YunxunSmsFeign接口："><a href="#1-编写一个YunxunSmsFeignStub类，并实现YunxunSmsFeign接口：" class="headerlink" title="1.编写一个YunxunSmsFeignStub类，并实现YunxunSmsFeign接口："></a>1.编写一个YunxunSmsFeignStub类，并实现YunxunSmsFeign接口：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import cn.seifon.example.feignstubmock.dto.YunxunSmsReqDto;</span><br><span class="line">import cn.seifon.example.feignstubmock.dto.YunxunSmsRespDto;</span><br><span class="line">import cn.seifon.example.feignstubmock.feign.YunxunSmsFeign;</span><br><span class="line">import org.apache.commons.lang3.RandomUtils;</span><br><span class="line">import org.apache.commons.lang3.StringUtils;</span><br><span class="line">import org.apache.commons.lang3.time.DateFormatUtils;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: Seifon</span><br><span class="line"> * @Description:</span><br><span class="line"> * @Date: Created in 10:24 2019/1/7</span><br><span class="line"> */</span><br><span class="line">@Primary //注意：需要在原Feign接口@FeignClient注解加入primary = false 属性</span><br><span class="line">@Component</span><br><span class="line">@ConditionalOnProperty(name = &quot;feign-stub.yunxun.sms.mode&quot;, havingValue = &quot;stub&quot;)</span><br><span class="line">public class YunxunSmsFeignStub implements YunxunSmsFeign &#123;</span><br><span class="line">    private static final Logger LOG = LoggerFactory.getLogger(YunxunSmsFeignStub.class);</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public YunxunSmsRespDto send(YunxunSmsReqDto request) &#123;</span><br><span class="line">        YunxunSmsRespDto yunxunSmsRespDto = new YunxunSmsRespDto();</span><br><span class="line"></span><br><span class="line">        //模拟正常响应结果</span><br><span class="line">        yunxunSmsRespDto.setCode(&quot;0&quot;);</span><br><span class="line">        yunxunSmsRespDto.setFailNum(&quot;0&quot;);</span><br><span class="line">        yunxunSmsRespDto.setSuccessNum(&quot;1&quot;);</span><br><span class="line">        yunxunSmsRespDto.setMsgId(String.valueOf(RandomUtils.nextLong(19000000000000000L, 19999999999999999L)));</span><br><span class="line">        yunxunSmsRespDto.setTime(DateFormatUtils.format(new Date(), &quot;yyyyMMddHHmmss&quot;));</span><br><span class="line">        yunxunSmsRespDto.setErrorMsg(&quot;&quot;);</span><br><span class="line"></span><br><span class="line">        String params = request.getParams();</span><br><span class="line">        String[] paramSplit = StringUtils.split(params, &quot;,&quot;);</span><br><span class="line">        if (paramSplit[0].length() != 11) &#123;</span><br><span class="line">            //模拟错误响应结果</span><br><span class="line">            yunxunSmsRespDto.setCode(&quot;107&quot;);</span><br><span class="line">            yunxunSmsRespDto.setMsgId(&quot;&quot;);</span><br><span class="line">            yunxunSmsRespDto.setErrorMsg(&quot;手机号码格式错误&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return yunxunSmsRespDto;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：必须标注@Primary注解,否则启动会报错。@ConditionalOnProperty的作用就是根据application.yaml配置的相关属性，判断是否注入Spring容器</p>
+</blockquote>
+<h5 id="2-application-yaml文件，加入下面的配置："><a href="#2-application-yaml文件，加入下面的配置：" class="headerlink" title="2.application.yaml文件，加入下面的配置："></a>2.application.yaml文件，加入下面的配置：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sms:</span><br><span class="line">    url: &apos;http://smssh1.253.com&apos;</span><br><span class="line"></span><br><span class="line">#yunxun：代表第三方系统名称，sms：代表业务名称，mode:代表Stub模式，url：代表mock服务地址</span><br><span class="line">feign-stub:</span><br><span class="line">    yunxun:</span><br><span class="line">        sms:</span><br><span class="line">            mode: &apos;stub&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="3-为了区分返回的内容是挡板结果，我们可以写一个AOP切面打印日志："><a href="#3-为了区分返回的内容是挡板结果，我们可以写一个AOP切面打印日志：" class="headerlink" title="3.为了区分返回的内容是挡板结果，我们可以写一个AOP切面打印日志："></a>3.为了区分返回的内容是挡板结果，我们可以写一个AOP切面打印日志：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import org.apache.commons.lang3.StringUtils;</span><br><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.Around;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Pointcut;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: Seifon</span><br><span class="line"> * @Description:</span><br><span class="line"> * @Date: Created in 10:24 2019/1/7</span><br><span class="line"> */</span><br><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class FeignStubAspect &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger LOG = LoggerFactory.getLogger(FeignStubAspect.class);</span><br><span class="line"></span><br><span class="line">    @Pointcut(&quot;execution(* cn.seifon.example.feignstubmock..stub.*.*(..))&quot;)</span><br><span class="line">    public void pointCut()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    @Around(&quot;pointCut()&quot;)</span><br><span class="line">    public Object around(ProceedingJoinPoint pjp)&#123;</span><br><span class="line">        String name = StringUtils.join(pjp.getTarget().getClass().getName(), &quot;.&quot;, pjp.getSignature().getName());</span><br><span class="line">        LOG.info(&quot;-----【&#123;&#125;】---- 进入挡板模式... request: 【&#123;&#125;】&quot;, name, JSON.toJSON(pjp.getArgs()));</span><br><span class="line">        try &#123;</span><br><span class="line">            Object proceed = pjp.proceed();</span><br><span class="line">            LOG.info(&quot;-----【&#123;&#125;】---- 退出挡板模式... request: 【&#123;&#125;】, response: 【&#123;&#125;】&quot;, name, JSON.toJSON(pjp.getArgs()), JSON.toJSON(proceed));</span><br><span class="line">            return proceed;</span><br><span class="line">        &#125; catch (Throwable e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="4-1-运行之前写的单元测试代码（输入一个正确的手机号）："><a href="#4-1-运行之前写的单元测试代码（输入一个正确的手机号）：" class="headerlink" title="4.1.运行之前写的单元测试代码（输入一个正确的手机号）："></a>4.1.运行之前写的单元测试代码（输入一个正确的手机号）：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2019-01-28 11:32:51.255  INFO 7488 --- [           main] c.s.e.f.aspect.FeignStubAspect           : -----【cn.seifon.example.feignstubmock.feign.stub.YunxunSmsFeignStub.send】---- 进入挡板模式... request: 【[&#123;&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;report&quot;:&quot;true&quot;,&quot;params&quot;:&quot;13011112222,123456&quot;,&quot;account&quot;:&quot;XXXXXXX&quot;&#125;]】</span><br><span class="line">2019-01-28 11:32:51.975  INFO 7488 --- [           main] c.s.e.f.aspect.FeignStubAspect           : -----【cn.seifon.example.feignstubmock.feign.stub.YunxunSmsFeignStub.send】---- 退出挡板模式... request: 【[&#123;&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;report&quot;:&quot;true&quot;,&quot;params&quot;:&quot;13011112222,123456&quot;,&quot;account&quot;:&quot;XXXXXXX&quot;&#125;]】, response: 【&#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19148964234899564&quot;,&quot;time&quot;:&quot;20190128113251&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;】</span><br><span class="line">&#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19148964234899564&quot;,&quot;time&quot;:&quot;20190128113251&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="4-2-运行之前写的单元测试代码（输入一个错误的手机号）："><a href="#4-2-运行之前写的单元测试代码（输入一个错误的手机号）：" class="headerlink" title="4.2.运行之前写的单元测试代码（输入一个错误的手机号）："></a>4.2.运行之前写的单元测试代码（输入一个错误的手机号）：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2019-01-28 11:35:27.177  INFO 15204 --- [           main] c.s.e.f.aspect.FeignStubAspect           : -----【cn.seifon.example.feignstubmock.feign.stub.YunxunSmsFeignStub.send】---- 进入挡板模式... request: 【[&#123;&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;report&quot;:&quot;true&quot;,&quot;params&quot;:&quot;130,123456&quot;,&quot;account&quot;:&quot;XXXXXXX&quot;&#125;]】</span><br><span class="line">2019-01-28 11:35:27.900  INFO 15204 --- [           main] c.s.e.f.aspect.FeignStubAspect           : -----【cn.seifon.example.feignstubmock.feign.stub.YunxunSmsFeignStub.send】---- 退出挡板模式... request: 【[&#123;&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;report&quot;:&quot;true&quot;,&quot;params&quot;:&quot;130,123456&quot;,&quot;account&quot;:&quot;XXXXXXX&quot;&#125;]】, response: 【&#123;&quot;code&quot;:&quot;107&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;&quot;,&quot;time&quot;:&quot;20190128113527&quot;,&quot;errorMsg&quot;:&quot;手机号码格式错误&quot;&#125;】</span><br><span class="line">&#123;&quot;code&quot;:&quot;107&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;&quot;,&quot;time&quot;:&quot;20190128113527&quot;,&quot;errorMsg&quot;:&quot;手机号码格式错误&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码就完成了一个stub挡板功能，可有时候，我们已经拿到第三方接口的返回报文，并切不想去写一大段Stub代码。那么这个时候，我们就可以选择下面的Mock方式去完成我们的功能。</p>
+<hr>
+<h4 id="三、接下来进入Mock环节："><a href="#三、接下来进入Mock环节：" class="headerlink" title="三、接下来进入Mock环节："></a>三、接下来进入Mock环节：</h4><h5 id="1-首先准备一个mock服务，这里我就用自己比较喜欢的一个mock工具（mock-json-server）给大家演示："><a href="#1-首先准备一个mock服务，这里我就用自己比较喜欢的一个mock工具（mock-json-server）给大家演示：" class="headerlink" title="1. 首先准备一个mock服务，这里我就用自己比较喜欢的一个mock工具（mock-json-server）给大家演示："></a>1. 首先准备一个mock服务，这里我就用自己比较喜欢的一个mock工具（mock-json-server）给大家演示：</h5><h6 id="1-1-安装nodejs："><a href="#1-1-安装nodejs：" class="headerlink" title="1.1 安装nodejs："></a>1.1 安装nodejs：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">参看官网：http://nodejs.cn/</span><br></pre></td></tr></table></figure>
+<h6 id="1-2-安装mock-json-server："><a href="#1-2-安装mock-json-server：" class="headerlink" title="1.2 安装mock-json-server："></a>1.2 安装mock-json-server：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g mock-json-server</span><br></pre></td></tr></table></figure>
+<h6 id="1-3-新建mock数据文件-命名为：data-json-："><a href="#1-3-新建mock数据文件-命名为：data-json-：" class="headerlink" title="1.3 新建mock数据文件(命名为：data.json)："></a>1.3 新建mock数据文件(命名为：data.json)：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;/msg/variable/json&quot;: &#123;</span><br><span class="line">    &quot;post&quot;: &#123;</span><br><span class="line">      &quot;code&quot;:&quot;0&quot;,</span><br><span class="line">      &quot;failNum&quot;:&quot;0&quot;,</span><br><span class="line">      &quot;successNum&quot;:&quot;1&quot;,</span><br><span class="line">      &quot;msgId&quot;:&quot;19012516213625881&quot;,</span><br><span class="line">      &quot;time&quot;:&quot;20190125162136&quot;,</span><br><span class="line">      &quot;errorMsg&quot;:&quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="1-4-运行："><a href="#1-4-运行：" class="headerlink" title="1.4 运行："></a>1.4 运行：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mock-json-server &#123;path&#125;/data.json --port=1240</span><br><span class="line"></span><br><span class="line">&#123;path&#125;替换为存放data.json的绝对路径</span><br></pre></td></tr></table></figure>
+<h6 id="1-5-如果显示如下结果，就代表mock服务运行成功："><a href="#1-5-如果显示如下结果，就代表mock服务运行成功：" class="headerlink" title="1.5 如果显示如下结果，就代表mock服务运行成功："></a>1.5 如果显示如下结果，就代表mock服务运行成功：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSON Server running at http://localhost:1240/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>mock-json-server具体使用文档，请参考：<a href="https://www.npmjs.com/package/mock-json-server" target="_blank" rel="noopener">https://www.npmjs.com/package/mock-json-server</a></p>
+</blockquote>
+<h5 id="2-准备工作做好后，接下来，就进入Mock正式环节："><a href="#2-准备工作做好后，接下来，就进入Mock正式环节：" class="headerlink" title="2. 准备工作做好后，接下来，就进入Mock正式环节："></a>2. 准备工作做好后，接下来，就进入Mock正式环节：</h5><h6 id="2-1-首先，我们定义一个YunxunSmsFeignMock接口，并且继承YunxunSmsFeign接口"><a href="#2-1-首先，我们定义一个YunxunSmsFeignMock接口，并且继承YunxunSmsFeign接口" class="headerlink" title="2.1 首先，我们定义一个YunxunSmsFeignMock接口，并且继承YunxunSmsFeign接口"></a>2.1 首先，我们定义一个YunxunSmsFeignMock接口，并且继承YunxunSmsFeign接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import cn.seifon.example.feignstubmock.feign.YunxunSmsFeign;</span><br><span class="line">import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;</span><br><span class="line">import org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line">import org.springframework.context.annotation.Primary;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: Seifon</span><br><span class="line"> * @Description:</span><br><span class="line"> * @Date: Created in 10:24 2019/1/7</span><br><span class="line"> */</span><br><span class="line">@Primary //注意：需要在原Feign接口@FeignClient注解加入primary = false 属性</span><br><span class="line">@Component</span><br><span class="line">@ConditionalOnProperty(name = &quot;feign-stub.yunxun.sms.mode&quot;, havingValue = &quot;mock&quot;)</span><br><span class="line">@FeignClient(name = &quot;smsclient-mock&quot;, url = &quot;$&#123;feign-stub.yunxun.sms.mockUrl&#125;&quot; ,path = &quot;/&quot;)</span><br><span class="line">public interface YunxunSmsFeignMock extends YunxunSmsFeign &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：必须标注@Primary注解，否则启动时会报错。@FeignClient里的name属性不能跟原Feign接口名称相同，如果相同会启动报错。@ConditionalOnProperty的作用就是根据application.yaml配置的相关属性，判断是否注入Spring容器</p>
+<h6 id="2-2-application-yaml文件，加入下面的配置："><a href="#2-2-application-yaml文件，加入下面的配置：" class="headerlink" title="2.2 application.yaml文件，加入下面的配置："></a>2.2 application.yaml文件，加入下面的配置：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sms:</span><br><span class="line">    url: &apos;http://smssh1.253.com&apos;</span><br><span class="line"></span><br><span class="line">#生产环境请勿添加此配置。mode说明：&apos;&apos;-不开启, &apos;mock&apos;-mock模式, &apos;stub&apos;-stub模式。url说明：只有mock模式需要配置调试url。fund为第三方机构，repayment是业务名称</span><br><span class="line">#yunxun：代表第三方系统名称，sms：代表业务名称，mode:代表挡板模式，url：代表mock服务地址</span><br><span class="line">feign-stub:</span><br><span class="line">    yunxun:</span><br><span class="line">        sms:</span><br><span class="line">            mode: &apos;mock&apos;</span><br><span class="line">            mockUrl: &quot;http://localhost:1240&quot;</span><br></pre></td></tr></table></figure>
+<h6 id="2-3-为了区分返回的内容是Mock结果，我们可以写一个AOP切面打印日志："><a href="#2-3-为了区分返回的内容是Mock结果，我们可以写一个AOP切面打印日志：" class="headerlink" title="2.3 为了区分返回的内容是Mock结果，我们可以写一个AOP切面打印日志："></a>2.3 为了区分返回的内容是Mock结果，我们可以写一个AOP切面打印日志：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import org.apache.commons.lang3.StringUtils;</span><br><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.Around;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Pointcut;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: Seifon</span><br><span class="line"> * @Description:</span><br><span class="line"> * @Date: Created in 10:24 2019/1/7</span><br><span class="line"> */</span><br><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class FeignMockAspect &#123;</span><br><span class="line"></span><br><span class="line">    private static final Logger LOG = LoggerFactory.getLogger(FeignMockAspect.class);</span><br><span class="line"></span><br><span class="line">    @Pointcut(&quot;execution(* cn.seifon.example.feignstubmock..mock.*.*(..))&quot;)</span><br><span class="line">    public void pointCut()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    @Around(&quot;pointCut()&quot;)</span><br><span class="line">    public Object around(ProceedingJoinPoint pjp)&#123;</span><br><span class="line">        String name = StringUtils.join(pjp.getTarget().getClass().getName(), &quot;.&quot;, pjp.getSignature().getName());</span><br><span class="line">        LOG.info(&quot;-----【&#123;&#125;】---- 进入Mock模式... request: 【&#123;&#125;】&quot;, name, JSON.toJSON(pjp.getArgs()));</span><br><span class="line">        try &#123;</span><br><span class="line">            Object proceed = pjp.proceed();</span><br><span class="line">            LOG.info(&quot;-----【&#123;&#125;】---- 退出Mock模式... request: 【&#123;&#125;】, response: 【&#123;&#125;】&quot;, name, JSON.toJSON(pjp.getArgs()), JSON.toJSON(proceed));</span><br><span class="line">            return proceed;</span><br><span class="line">        &#125; catch (Throwable e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="2-4-运行之前的单元测试类，得到如下结果："><a href="#2-4-运行之前的单元测试类，得到如下结果：" class="headerlink" title="2.4 运行之前的单元测试类，得到如下结果："></a>2.4 运行之前的单元测试类，得到如下结果：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">2019-01-28 16:16:35.567  INFO 8976 --- [           main] c.s.e.f.aspect.FeignMockAspect           : -----【com.sun.proxy.$Proxy95.send】---- 进入Mock模式... request: 【[&#123;&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;report&quot;:&quot;true&quot;,&quot;params&quot;:&quot;13011112222,123456&quot;,&quot;account&quot;:&quot;XXXXXXX&quot;&#125;]】</span><br><span class="line">2019-01-28 16:16:35.934 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] ---&gt; POST http://localhost:1240/msg/variable/json HTTP/1.1</span><br><span class="line">2019-01-28 16:16:35.935 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] Content-Type: application/json;charset=UTF-8</span><br><span class="line">2019-01-28 16:16:35.936 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] Content-Length: 152</span><br><span class="line">2019-01-28 16:16:35.936 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] </span><br><span class="line">2019-01-28 16:16:35.937 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] &#123;&quot;account&quot;:&quot;XXXXXXX&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;params&quot;:&quot;13011112222,123456&quot;,&quot;report&quot;:&quot;true&quot;&#125;</span><br><span class="line">2019-01-28 16:16:35.937 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] ---&gt; END HTTP (152-byte body)</span><br><span class="line">2019-01-28 16:16:36.021 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] &lt;--- HTTP/1.1 200 OK (82ms)</span><br><span class="line">2019-01-28 16:16:36.021 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] access-control-allow-origin: *</span><br><span class="line">2019-01-28 16:16:36.022 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] connection: keep-alive</span><br><span class="line">2019-01-28 16:16:36.023 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] content-length: 109</span><br><span class="line">2019-01-28 16:16:36.023 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] content-type: application/json; charset=utf-8</span><br><span class="line">2019-01-28 16:16:36.024 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] date: Mon, 28 Jan 2019 08:16:36 GMT</span><br><span class="line">2019-01-28 16:16:36.024 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] etag: W/&quot;6d-XqhLoZB8r6IRF2Lb6CWoIVVNhIQ&quot;</span><br><span class="line">2019-01-28 16:16:36.025 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] x-content-type-options: nosniff</span><br><span class="line">2019-01-28 16:16:36.026 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] x-powered-by: Express</span><br><span class="line">2019-01-28 16:16:36.027 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] </span><br><span class="line">2019-01-28 16:16:36.030 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] &#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19012516213625881&quot;,&quot;time&quot;:&quot;20190125162136&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;</span><br><span class="line">2019-01-28 16:16:36.030 DEBUG 8976 --- [           main] c.s.e.f.feign.mock.YunxunSmsFeignMock    : [YunxunSmsFeignMock#send] &lt;--- END HTTP (109-byte body)</span><br><span class="line">2019-01-28 16:16:36.227  INFO 8976 --- [           main] c.s.e.f.aspect.FeignMockAspect           : -----【com.sun.proxy.$Proxy95.send】---- 退出Mock模式... request: 【[&#123;&quot;msg&quot;:&quot;登录验证码:&#123;$var&#125;，请不要对非本人透露。&quot;,&quot;password&quot;:&quot;XXXXXXX&quot;,&quot;report&quot;:&quot;true&quot;,&quot;params&quot;:&quot;13011112222,123456&quot;,&quot;account&quot;:&quot;XXXXXXX&quot;&#125;]】, response: 【&#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19012516213625881&quot;,&quot;time&quot;:&quot;20190125162136&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;】</span><br><span class="line">&#123;&quot;code&quot;:&quot;0&quot;,&quot;failNum&quot;:&quot;0&quot;,&quot;successNum&quot;:&quot;1&quot;,&quot;msgId&quot;:&quot;19012516213625881&quot;,&quot;time&quot;:&quot;20190125162136&quot;,&quot;errorMsg&quot;:&quot;&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：此时我们根据日志，会发现feign调用的url已经变为我们的Mock服务地址了。同理，如果要返回失败结果，只需要修改data.json文件，再次调用后，即可得到我们想要的结果了。</p>
+<hr>
+<h4 id="四、结语："><a href="#四、结语：" class="headerlink" title="四、结语："></a>四、结语：</h4><p>如果有什么需要改进的地方，或者不正确的地方，请在评论里面提出并指正。谢谢！</p>
+<blockquote>
+<p>详细Demo代码，已经提交到Github，欢迎star</p>
+</blockquote>
+<p>Demo地址: <a href="https://github.com/Seifon/FeignStubMock" target="_blank" rel="noopener">https://github.com/Seifon/FeignStubMock</a></p>
+<p>项目结构,如图：<br><img src="https://github.com/Seifon/FeignStubMock/raw/master/package_tree.png" alt=""></p>
+
+    </div>
+
+    <div class="post-footer">
+        <div class="col-sm-10">
+            <div>
+                <b>本文链接</b>：<a href="/2019/01/28/Feign-Stub挡板和Mock/">Feign Stub挡板和Mock</a>
+            </div>
+            <div>
+                
+                    转载声明：本博客由熊峰创作，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/" target="_blank"> CC BY 3.0 CN </a> 许可协议。可自由转载、引用，但需署名作者且注明文章出处。如转载至微信公众号，请在文末添加作者公众号二维码。
+                
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="http://ww1.sinaimg.cn/large/005zWjpngy1fqpaewa9faj307607674q.jpg" width=100% />
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2018/12/08/踩坑-Spring-Cloud-Hystrix-线程池队列配置/" class="next-post btn btn-default" title='踩坑 Spring Cloud Hystrix 线程池队列配置'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">踩坑 Spring Cloud Hystrix 线程池队列配置</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	<!--PC和WAP自适应版-->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+	(function(){var appid='cytEo3Kuu';var conf='prod_f87ce311d1eb4334ea957f57640e9d15';var width=window.innerWidth||document.documentElement.clientWidth;if(width<960){window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id='+appid+'&conf='+conf+'"><\/script>');}else{var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+	c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});}})();
+</script>	
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>
+  <b>公众号</b>：熊峰的博客<br/>
+  <b>Q Q 群</b>：106214222<br/>
+  <div style="text-align: center;">
+    <img src="http://wx1.sinaimg.cn/large/007cGLmlly1ftivt065quj306o095t9a.jpg" alt="QQ群：106214222">
+  </div>
+</p>
+        </div>
+    </div>
+
+        
+        
+        <div class="widget">
+            <div class="about-me">
+                <img src="http://ww1.sinaimg.cn/large/005zWjpngy1fqpaewa9faj307607674q.jpg" alt="熊峰的博客 - Seifon's Blog">
+                <h2>熊峰-Seifon</h2>
+                <p>不定期为大家分享开发当中的小经验</p>
+            </div>
+        </div>
+
+
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//github.com/seifon" rel="external nofollow" title="GitHub" target="_blank">
+			    	<i class="github fa fa-github"></i>
+			    </a>
+            
+	            <a href="//gitee.com/seifon" rel="external nofollow" title="Git@OSC" target="_blank">
+			    	<i class="git fa fa-git"></i>
+			    </a>
+            
+	            <a href="mailto:seifon@126.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+	            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+			    	<i class="feed fa fa-feed"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">分类</h3>
+        <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Iptables/"><i class="fa" aria-hidden="true">Iptables</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA调优/"><i class="fa" aria-hidden="true">JAVA调优</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jenkins/"><i class="fa" aria-hidden="true">Jenkins</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mysql/"><i class="fa" aria-hidden="true">Mysql</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/"><i class="fa" aria-hidden="true">Nginx</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Restful/"><i class="fa" aria-hidden="true">Restful</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/"><i class="fa" aria-hidden="true">Spring</i></a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Yaml/"><i class="fa" aria-hidden="true">Yaml</i></a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/"><i class="fa" aria-hidden="true">算法</i></a><span class="category-list-count">1</span></li></ul>
+    </div>
+
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/"><i class="fa" aria-hidden="true">一月 2019</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/"><i class="fa" aria-hidden="true">十二月 2018</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/"><i class="fa" aria-hidden="true">四月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/"><i class="fa" aria-hidden="true">九月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/"><i class="fa" aria-hidden="true">七月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/"><i class="fa" aria-hidden="true">六月 2017</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/"><i class="fa" aria-hidden="true">五月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/"><i class="fa" aria-hidden="true">四月 2017</i></a><span class="archive-list-count">1</span></li></ul>
+    </div>
+
+
+        
+        
+  <div class="widget">
+    <h3 class="title">标签云</h3>
+    <div class="content tag-cloud">
+        <a href="/tags/CI/" style="font-size: 10px;">CI</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Hystrix/" style="font-size: 10px;">Hystrix</a> <a href="/tags/Jenkins/" style="font-size: 10px;">Jenkins</a> <a href="/tags/Json/" style="font-size: 10px;">Json</a> <a href="/tags/Jstack/" style="font-size: 10px;">Jstack</a> <a href="/tags/Mysql/" style="font-size: 10px;">Mysql</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Spring-Cloud/" style="font-size: 10px;">Spring Cloud</a> <a href="/tags/Util/" style="font-size: 10px;">Util</a> <a href="/tags/Yaml/" style="font-size: 10px;">Yaml</a> <a href="/tags/centos/" style="font-size: 20px;">centos</a> <a href="/tags/iptables/" style="font-size: 20px;">iptables</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/yml/" style="font-size: 10px;">yml</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/定时/" style="font-size: 10px;">定时</a> <a href="/tags/容灾/" style="font-size: 10px;">容灾</a> <a href="/tags/拦截器/" style="font-size: 10px;">拦截器</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/栈/" style="font-size: 10px;">栈</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/调优/" style="font-size: 10px;">调优</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/防火墙/" style="font-size: 20px;">防火墙</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+  </div>
+
+
+        
+        
+    <div class="widget">
+        <h3 class="title">友链</h3>
+        <div class="content friends-link">
+        
+            <a href="https://www.seifon.cn/" class="fa" target="_blank">熊峰的博客</a>
+        
+        </div>
+    </div>
+
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/itmuch/hexo-theme-itmuch.git" class="copyright-links" target="_blank" rel="nofollow">ITMuch</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>

@@ -29,7 +29,7 @@
     <!--Title-->
 
 
-<title>标签: 调优 | 熊峰的博客 - Seifon&#39;s Blog</title>
+<title>归档：2019 | 熊峰的博客 - Seifon&#39;s Blog</title>
 
 
     <link rel="alternate" href="/atom.xml" title="熊峰的博客 - Seifon&#39;s Blog" type="application/atom+xml">
@@ -122,45 +122,30 @@
         <div class="container">
             <div class="row">
                 <main class="col-md-8 main-content ">
-                    <h3> 
-    
-        调优 
-    
-    
-</h3>
+                    <div id="main">
 
-    <article class="post">
+    <div id="post-list">
+    <ul class="archives-post-list">
         
-        <div class="post-content">
-            <div class="post-head home-post-head">
-                <h1 class="post-title"> 
-                    <a href="/2017/09/05/高CPU占用调优/">高CPU占用调优</a>
-                </h1>
-                <div class="post-meta">  &bull;
-                    <time class="post-date" datetime="" title="">
-                        2017年09月05日
-                    </time>
-                </div>
-            </div>
-            <p class="brief">
-                
-                    根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。
-通过查看进程1ps aux | grep PID
-可以进一步确定是tomcat进程出现了问题。
-但是，怎么定位到具体线程或者代码呢？
-首先显示线程列表:1ps -mp pid -o THREAD,tid,time
+            
+            
 
-找到了耗时最高的线程28802，占用CPU时间快两个小时了！
-其次将需要的线程ID转换为16进制格式：1printf &amp;quot;%x\n&amp;quot; tid
+            
+            
+            
+            <h1 class="info">2019年</h1>
+            
+            <li class="post-items" _href="/2019/01/28/Feign-Stub挡板和Mock/">
+                <h3 class="post-item-title">
+                    <a href="/2019/01/28/Feign-Stub挡板和Mock/">01-28 Feign Stub挡板和Mock </a>
+                </h3>
+            </li>
+            
+        
 
-最后打印...
-                
-            </p> 
-        </div>
-    </article>
- 
-
-
+    </ul>
+  </div>
+</div>
 
 
 
