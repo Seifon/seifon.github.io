@@ -181,17 +181,17 @@
     </div>
     
     <div class="post-body post-content">
-        <h4 id="根据top命令，发现PID为28555的Java进程占用CPU高达200-，出现故障。"><a href="#根据top命令，发现PID为28555的Java进程占用CPU高达200-，出现故障。" class="headerlink" title="根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。"></a>根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。</h4><p><img src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjr9mfhxj20nb07k7fy.jpg" alt=""></p>
+        <h4 id="根据top命令，发现PID为28555的Java进程占用CPU高达200-，出现故障。"><a href="#根据top命令，发现PID为28555的Java进程占用CPU高达200-，出现故障。" class="headerlink" title="根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。"></a>根据top命令，发现PID为28555的Java进程占用CPU高达200%，出现故障。</h4><p><img src="http://lva.sinaimg.cn/large/8e24145egy1fjqjr9mfhxj20nb07k7fy.jpg" alt=""></p>
 <h4 id="通过查看进程"><a href="#通过查看进程" class="headerlink" title="通过查看进程"></a>通过查看进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep PID</span><br></pre></td></tr></table></figure>
 <p>可以进一步确定是tomcat进程出现了问题。</p>
 <p>但是，怎么定位到具体线程或者代码呢？</p>
 <h4 id="首先显示线程列表"><a href="#首先显示线程列表" class="headerlink" title="首先显示线程列表:"></a>首先显示线程列表:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -mp pid -o THREAD,tid,time</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjtoveipj20nb08idrh.jpg" alt=""></p>
+<p><img src="http://lva.sinaimg.cn/large/8e24145egy1fjqjtoveipj20nb08idrh.jpg" alt=""></p>
 <p>找到了耗时最高的线程28802，占用CPU时间快两个小时了！</p>
 <h4 id="其次将需要的线程ID转换为16进制格式："><a href="#其次将需要的线程ID转换为16进制格式：" class="headerlink" title="其次将需要的线程ID转换为16进制格式："></a>其次将需要的线程ID转换为16进制格式：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf &quot;%x\n&quot; tid</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjvwb86vj20n804f416.jpg" alt=""></p>
+<p><img src="http://lva.sinaimg.cn/large/8e24145egy1fjqjvwb86vj20n804f416.jpg" alt=""></p>
 <h4 id="最后打印线程的堆栈信息："><a href="#最后打印线程的堆栈信息：" class="headerlink" title="最后打印线程的堆栈信息："></a>最后打印线程的堆栈信息：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack pid |grep tid(16进制线程ID) –A60</span><br></pre></td></tr></table></figure>
-<p><img src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjviodt2j20o00afncx.jpg" alt=""></p>
+<p><img src="http://lva.sinaimg.cn/large/8e24145egy1fjqjviodt2j20o00afncx.jpg" alt=""></p>
 <p>找到有问题的java代码(省略)，进行业务调整和编码修改</p>
 <h4 id="最后，总结下排查CPU故障的方法和技巧有哪些："><a href="#最后，总结下排查CPU故障的方法和技巧有哪些：" class="headerlink" title="最后，总结下排查CPU故障的方法和技巧有哪些："></a>最后，总结下排查CPU故障的方法和技巧有哪些：</h4><ul>
 <li><p>1、top命令：Linux命令。可以查看实时的CPU使用情况。也可以查看最近一段时间的CPU使用情况。</p>
