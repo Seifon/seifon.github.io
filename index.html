@@ -129,6 +129,69 @@
 <article class="post">
     
         <div class="post-media">
+            <a href="/2019/08/04/JVM调优之探索CMS和G1的物理内存归还机制/">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="http://img.seifon.cn/cc51dc7f2f0260d88ca84c25ffee1dfa.png"   alt="JVM调优之探索CMS和G1的物理内存归还机制">
+            </a>
+        </div>
+    
+    <div class="post-content">
+        <div class="post-head home-post-head">
+            <h1 class="post-title">
+                <a href="/2019/08/04/JVM调优之探索CMS和G1的物理内存归还机制/">JVM调优之探索CMS和G1的物理内存归还机制</a>
+            </h1>
+            <div class="post-meta">  &bull;
+                <time class="post-date" datetime="" title="">
+                    2019年08月04日
+                </time>
+            </div>
+        </div>
+        <p class="brief">
+            
+                前言：公司有一个资产统计系统，使用频率很低，但是要求在使用时查询速度快，因此想到做一些缓存放在内存中，在长时间没有使用，就持久化到磁盘中，并对垃圾进行回收，归还物理内存给操作系统，从而节省宝贵资源给其它业务系统。当我做好缓存时，却发现了一个棘手的问题，通过程序释放资源并通知GC回收资源后，堆内存的已用内存减少了，空闲内存增加了，可是进程占用系统内存却没有减少。查阅了很多资料，也尝试过很多次，都没有完美解决问题。直到后来看到一段评论谈及G1垃圾回收器，才恍然大悟。
+接下来...
+            
+        </p>
+    </div>
+    
+        <footer class="post-footer clearfix">
+            <div class="pull-left tag-list">
+                <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/ ">
+             
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                
+            
+        </span>
+    </span>
+    
+
+    
+</div>
+
+            </div>
+
+            <div class="post-permalink">
+                <a href="/2019/08/04/JVM调优之探索CMS和G1的物理内存归还机制/" class="btn btn-default">阅读全文</a>
+            </div>
+        </footer>
+    
+</article>
+
+
+<article class="post">
+    
+        <div class="post-media">
             <a href="/2019/01/28/Feign-Stub挡板和Mock/">
                 <img class="img-ajax" src="/img/loading.gif"  data-src="https://github.com/Seifon/FeignStubMock/raw/master/package_tree.png"   alt="Feign Stub挡板和Mock">
             </a>
@@ -197,7 +260,7 @@
     
         <div class="post-media">
             <a href="/2018/12/08/踩坑-Spring-Cloud-Hystrix-线程池队列配置/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="http://img.seifon.cn/6353ad99b3e0af79bcc6753f7c915eab.png"   alt="踩坑 Spring Cloud Hystrix 线程池队列配置">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="http://img.seifon.cn/a372d90344c968f5ef1631ae13453e6d.png"   alt="踩坑 Spring Cloud Hystrix 线程池队列配置">
             </a>
         </div>
     
@@ -502,7 +565,7 @@
     
         <div class="post-media">
             <a href="/2017/09/05/高CPU占用调优/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjr9mfhxj20nb07k7fy.jpg"   alt="高CPU占用调优">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fjqjvwb86vj20n804f416.jpg"   alt="高CPU占用调优">
             </a>
         </div>
     
@@ -653,7 +716,7 @@
     
         <div class="post-media">
             <a href="/2017/07/08/Jenkins环境搭建/">
-                <img class="img-ajax" src="/img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fi831ouwi2j20hx08naax.jpg"   alt="Jenkins环境搭建">
+                <img class="img-ajax" src="/img/loading.gif"  data-src="http://ww1.sinaimg.cn/large/8e24145egy1fi82wdsq6pj211t0iego2.jpg"   alt="Jenkins环境搭建">
             </a>
         </div>
     
@@ -794,79 +857,6 @@ YAML支持三种数据结构：
 </article>
 
 
-<article class="post">
-    
-    <div class="post-content">
-        <div class="post-head home-post-head">
-            <h1 class="post-title">
-                <a href="/2017/05/03/Mysql异地定时备份方法/">Mysql异地定时备份方法</a>
-            </h1>
-            <div class="post-meta">  &bull;
-                <time class="post-date" datetime="" title="">
-                    2017年05月03日
-                </time>
-            </div>
-        </div>
-        <p class="brief">
-            
-                两台linux服务器：
-一台199.20.30.222（mysql服务器）
-一台199.20.30.226（与mysql互通的一台server）
-
-思路：mysql本地做一份备份；226Server做一份同步备份，脚本放在222上面，定时任务也设置在222上面。
-（1）mysql本地备份：1234#!/bin/sh#mysql_backupDATE=`date +%Y%m%d`/opt/mysql/bin/mysqldump --opt jsweb -u root   ...
-            
-        </p>
-    </div>
-    
-        <footer class="post-footer clearfix">
-            <div class="pull-left tag-list">
-                <div class="post-meta">
-    
-    
-    <span class="categories-meta fa-wrap">
-        <i class="fa fa-folder-open-o"></i>
-        <a href="/categories/Mysql">
-            Mysql
-        </a>
-    </span>
-    
-    
-    <span class="fa-wrap">
-        <i class="fa fa-tags"></i>
-        <span class="tags-meta">
-            
-                
-                    <a href="/tags/Mysql" title='Mysql'>
-                        Mysql
-                    </a>
-                
-                    <a href="/tags/数据库" title='数据库'>
-                        数据库
-                    </a>
-                
-                    <a href="/tags/备份" title='备份'>
-                        备份
-                    </a>
-                
-            
-        </span>
-    </span>
-    
-
-    
-</div>
-
-            </div>
-
-            <div class="post-permalink">
-                <a href="/2017/05/03/Mysql异地定时备份方法/" class="btn btn-default">阅读全文</a>
-            </div>
-        </footer>
-    
-</article>
-
-
 
 
     <nav class="pagination" role="navigation">
@@ -975,7 +965,7 @@ YAML支持三种数据结构：
         
     <div class="widget">
       <h3 class="title">归档</h3>
-        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/"><i class="fa" aria-hidden="true">一月 2019</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/"><i class="fa" aria-hidden="true">十二月 2018</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/"><i class="fa" aria-hidden="true">四月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/"><i class="fa" aria-hidden="true">九月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/"><i class="fa" aria-hidden="true">七月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/"><i class="fa" aria-hidden="true">六月 2017</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/"><i class="fa" aria-hidden="true">五月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/"><i class="fa" aria-hidden="true">四月 2017</i></a><span class="archive-list-count">1</span></li></ul>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/"><i class="fa" aria-hidden="true">八月 2019</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/"><i class="fa" aria-hidden="true">一月 2019</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/"><i class="fa" aria-hidden="true">十二月 2018</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/"><i class="fa" aria-hidden="true">四月 2018</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/"><i class="fa" aria-hidden="true">九月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/"><i class="fa" aria-hidden="true">七月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/"><i class="fa" aria-hidden="true">六月 2017</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/"><i class="fa" aria-hidden="true">五月 2017</i></a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/"><i class="fa" aria-hidden="true">四月 2017</i></a><span class="archive-list-count">1</span></li></ul>
     </div>
 
 

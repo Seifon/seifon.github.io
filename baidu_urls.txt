@@ -1,2 +1,2 @@
+http://www.seifon.cn/2019/08/04/JVM调优之探索CMS和G1的物理内存归还机制/
 http://www.seifon.cn/2019/01/28/Feign-Stub挡板和Mock/
-http://www.seifon.cn/2018/12/08/踩坑-Spring-Cloud-Hystrix-线程池队列配置/
